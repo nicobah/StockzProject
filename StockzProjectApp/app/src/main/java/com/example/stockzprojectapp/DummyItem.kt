@@ -1,3 +1,3 @@
 package com.example.stockzprojectapp
 
-data class DummyItem(val name: String, val value: Int)
+data class DummyItem(var name: String, var value: Int)

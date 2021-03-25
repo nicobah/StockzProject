@@ -2,21 +2,31 @@ package com.example.stockzprojectapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MarketAdapter.OnItemClickListener {
+    private val dummylist = generateDummyList()
+    private val adapter = MarketAdapter(dummylist, this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val dummylist = generateDummyList()
-
-        val recyclerView : RecyclerView = findViewById(R.id.market_rv)
-        recyclerView.adapter = MarketAdapter(dummylist)
+        val recyclerView: RecyclerView = findViewById(R.id.market_rv)
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         //setHasFixedSize is not neccesarry
         recyclerView.setHasFixedSize(true)
+    }
+
+    override fun onItemClick(position: Int) {
+        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        val clickedItem: DummyItem = dummylist[position]
+        clickedItem.name = "clicked"
+        adapter.notifyDataSetChanged()
+
     }
 
     private fun generateDummyList(): List<DummyItem> {

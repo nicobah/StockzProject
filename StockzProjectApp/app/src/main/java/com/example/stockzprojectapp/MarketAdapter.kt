@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MarketAdapter(private val marketList: List<DummyItem>) :
+class MarketAdapter(private val marketList: List<DummyItem>,
+private val listener: OnItemClickListener
+                    ) :
     RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,9 +29,24 @@ class MarketAdapter(private val marketList: List<DummyItem>) :
 
     override fun getItemCount() = marketList.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val marketText: TextView = itemView.findViewById(R.id.market_item_name)
         val marketValue: TextView = itemView.findViewById(R.id.market_item_value)
 
+        init{
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
     }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
 }
