@@ -4,9 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PortfolioFragment">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Portfolio" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/market_rv"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:clipToPadding="false"
+        android:padding="4dp"
+        tools:listitem="@layout/market_rv_item" />
 
 </FrameLayout>
