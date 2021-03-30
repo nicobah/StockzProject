@@ -2,43 +2,34 @@ package com.example.stockzprojectapp
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stockzprojectapp.databinding.FragmentPortfolioBinding
 
 
-class PortfolioFragment : Fragment(), MarketAdapter.OnItemClickListener {
+class PortfolioFragment : Fragment(R.layout.fragment_portfolio), MarketAdapter.OnItemClickListener {
     private val dummylist = generateDummyList()
-    private val adapter = MarketAdapter(dummylist, this)
+    private val marketAdapter = MarketAdapter(dummylist, this)
+    private lateinit var binding: FragmentPortfolioBinding
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-
-        return inflater.inflate(R.layout.fragment_portfolio, container, false)
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var recyclerView: RecyclerView = view.findViewById(R.id.market_rv)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentPortfolioBinding.bind(view)
+        binding.marketRv.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = marketAdapter
+        }
     }
-
-
 
 
     override fun onItemClick(position: Int) {
         Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem: DummyItem = dummylist[position]
         clickedItem.name = "clicked"
-        adapter.notifyDataSetChanged()
+        marketAdapter.notifyDataSetChanged()
 
     }
 
