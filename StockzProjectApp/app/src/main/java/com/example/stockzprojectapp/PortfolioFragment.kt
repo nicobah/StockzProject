@@ -1,5 +1,6 @@
 package com.example.stockzprojectapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -9,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.stockzprojectapp.databinding.FragmentPortfolioBinding
 
 
-class PortfolioFragment : Fragment(R.layout.fragment_portfolio), MarketAdapter.OnItemClickListener {
+class PortfolioFragment : Fragment(R.layout.fragment_portfolio) {
     private val dummylist = generateDummyList()
-    private val marketAdapter = MarketAdapter(dummylist, this)
+    private val marketAdapter = MarketAdapter(dummylist)
     private lateinit var binding: FragmentPortfolioBinding
+
+    private var listener: OnItemClickListener? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,12 +28,26 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), MarketAdapter.O
     }
 
 
-    override fun onItemClick(position: Int) {
-        Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
+    fun onListItemClick(position: Int) {
+        //Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
         val clickedItem: DummyItem = dummylist[position]
         clickedItem.name = "clicked"
         marketAdapter.notifyDataSetChanged()
 
+        listener?.onItemClick(position)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception.
+        listener = try {
+            activity as OnItemClickListener?
+        } catch (e: ClassCastException) {
+            throw ClassCastException(context.toString()
+                    + " must implement OnItemClickListener")
+        }
     }
 
     private fun generateDummyList(): List<DummyItem> {
@@ -67,6 +84,10 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio), MarketAdapter.O
         list.add(DummyItem("ItemNoGameStop", 999999999))
 
         return list
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 
 }
