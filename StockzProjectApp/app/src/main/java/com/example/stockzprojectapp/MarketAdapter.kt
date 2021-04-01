@@ -6,15 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stockzprojectapp.databinding.MarketRvItemBinding
 
 class MarketAdapter(private val marketList: List<DummyItem>) : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.market_rv_item,
-            parent, false
-        )
-        return ViewHolder(itemView)
+        return ViewHolder(MarketRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -25,9 +22,9 @@ class MarketAdapter(private val marketList: List<DummyItem>) : RecyclerView.Adap
 
     override fun getItemCount() = marketList.size
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),  View.OnClickListener{
-        val marketText: TextView = itemView.findViewById(R.id.market_item_name)
-        val marketValue: TextView = itemView.findViewById(R.id.market_item_value)
+    inner class ViewHolder(private val binding: MarketRvItemBinding) : RecyclerView.ViewHolder(binding.root),  View.OnClickListener{
+        val marketText: TextView = binding.marketItemName
+        val marketValue: TextView = binding.marketItemValue
 
         init {
             itemView.setOnClickListener(this)
