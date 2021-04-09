@@ -12,13 +12,14 @@ import java.util.*
 class StockService {
     fun execute(symbol: String, date: String, output: String) {
         val url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=%s&apikey=KX1X7LVV24I06XJE".format(symbol)
-        var price = 0f
 
-        doAsync {      // send the URL request and read the response
-            val result = URL(url).readText()     //  Parse out the price from the JSON result
-            price = getPrice(result, date, output)
+
+        // send the URL request and read the response as a asyncrone call
+        doAsync {
+            val result = URL(url).readText()
+            var price = getPrice(result, date, output)
             println(price)
-            uiThread {          //  add the resulting symbol and price of the stock to the adapter
+            uiThread {
 
             }
         }
@@ -33,7 +34,7 @@ class StockService {
             var DATE_FORMAT =  SimpleDateFormat("yyyy-MM-dd")
             var dateKey = DATE_FORMAT.format(today) as String
             val todaysStockPrices =
-                ((json["Time Series (Daily)"] as JSONObject)["2021-04-06"] as JSONObject).getString(output)
+                ((json["Time Series (Daily)"] as JSONObject)["2021-04-07"] as JSONObject).getString(output)
                 return todaysStockPrices.toFloat()
     }
 }

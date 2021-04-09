@@ -7,13 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class Stock
-{
-    var symbol : String = ""
-    var price : Float = 0.0f
+class Stock(symbol1: String, price1: Float) {
+    var symbol : String = symbol1
+    var price : Float = price1
 
-    constructor(symbol1: String, price1 : Float){
-        symbol = symbol1
-        price = price1
-    }
 }

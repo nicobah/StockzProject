@@ -20,7 +20,6 @@ class MarketFragment : Fragment(), View.OnClickListener  {
     ): View? {        val view: View = inflater!!.inflate(R.layout.fragment_market, container, false)
         val btn: Button = view.find(R.id.searchButtonId)
         btn.setOnClickListener(this)
-        // Inflate the layout for this fragment
         return view
     }
 
