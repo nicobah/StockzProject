@@ -11,6 +11,7 @@ import com.example.stockzprojectapp.databinding.FragmentPortfolioBinding
 
 
 class PortfolioFragment : Fragment(R.layout.fragment_portfolio) {
+    private val stock = StockService()
     private val dummylist = generateDummyList()
     private val marketAdapter = MarketAdapter(dummylist)
     private lateinit var binding: FragmentPortfolioBinding
@@ -25,6 +26,7 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio) {
             layoutManager = LinearLayoutManager(context)
             adapter = marketAdapter
         }
+        println(stock.execute("IBM", "2021-04-06", "1. open"))
     }
 
 

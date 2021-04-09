@@ -2,6 +2,8 @@ package com.example.stockzprojectapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity(), PortfolioFragment.OnItemClickListener 
                     selectedFragment = RandomFragment()
                 }
             }
+
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
             //returns true for selected menu item
             return@setOnNavigationItemSelectedListener true
