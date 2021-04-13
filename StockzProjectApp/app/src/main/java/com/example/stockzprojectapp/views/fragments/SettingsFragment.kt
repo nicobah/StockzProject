@@ -1,12 +1,13 @@
-package com.example.stockzprojectapp
+package com.example.stockzprojectapp.views.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.stockzprojectapp.R
 
-class RandomFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -14,7 +15,7 @@ class RandomFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_random, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
 }

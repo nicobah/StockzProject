@@ -10,8 +10,8 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title="Search"/>
     <item
-        android:id="@+id/random"
-        android:icon="@drawable/ic_baseline_sports_soccer_24"
-        android:title="random"/>
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Settings"/>
 
 </menu>
