@@ -11,9 +11,9 @@ import com.example.stockzprojectapp.databinding.FragmentPortfolioBinding
 
 
 class PortfolioFragment : Fragment(R.layout.fragment_portfolio) {
-    private val stock = StockService()
     private val dummylist = generateDummyList()
-    private val marketAdapter = MarketAdapter(dummylist)
+    private var stocklist = generateStockList()
+    private var marketAdapter = MarketAdapter(stocklist)
     private lateinit var binding: FragmentPortfolioBinding
 
     private var listener: OnItemClickListener? = null
@@ -26,16 +26,14 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio) {
             layoutManager = LinearLayoutManager(context)
             adapter = marketAdapter
         }
-        println(stock.execute("IBM", "2021-04-06", "1. open"))
     }
 
 
     fun onListItemClick(position: Int) {
         //Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        val clickedItem: DummyItem = dummylist[position]
-        clickedItem.name = "clicked"
+        val clickedItem: Stock = stocklist[position]
+        clickedItem.symbol = "clicked"
         marketAdapter.notifyDataSetChanged()
-
         listener?.onItemClick(position)
     }
 
@@ -50,6 +48,24 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio) {
             throw ClassCastException(context.toString()
                     + " must implement OnItemClickListener")
         }
+    }
+
+    public fun addToPortfolio(stock: Stock){
+        stocklist.add(stock)
+        stocklist.forEach {
+            println(it.symbol)
+            println(it.date)
+            println(it.price)
+            println(it.amount)
+        }
+        marketAdapter.updateAdapter(stocklist)
+    }
+
+    private fun generateStockList(): ArrayList<Stock>{
+        val list = ArrayList<Stock>()
+        val myStock = Stock("IBM", 200.0f, "16-04-2021 20:00:00")
+        list.add(myStock)
+        return list
     }
 
     private fun generateDummyList(): List<DummyItem> {
