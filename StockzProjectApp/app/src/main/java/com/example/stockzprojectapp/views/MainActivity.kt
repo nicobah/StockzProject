@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.stockzprojectapp.*
 import com.example.stockzprojectapp.databinding.ActivityMainBinding
-import com.example.stockzprojectapp.models.DummyItem
+import com.example.stockzprojectapp.models.Stock
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import com.example.stockzprojectapp.views.fragments.MarketFragment
 import com.example.stockzprojectapp.views.fragments.PortfolioDetailedFragment
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
 
-        val portfolioObserver = Observer<Pair<Int, DummyItem>>{
+        val portfolioObserver = Observer<Pair<Int, Stock>>{
             val newFragment =
                 PortfolioDetailedFragment()
             val transaction = supportFragmentManager.beginTransaction()

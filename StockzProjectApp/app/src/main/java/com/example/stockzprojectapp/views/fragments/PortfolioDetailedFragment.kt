@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import com.example.stockzprojectapp.R
-import com.example.stockzprojectapp.models.DummyItem
+import com.example.stockzprojectapp.models.Stock
 
 class PortfolioDetailedFragment : Fragment() {
 
@@ -30,8 +30,8 @@ class PortfolioDetailedFragment : Fragment() {
 
         stock = view.findViewById(R.id.testText)
 
-        val portfolioObserver = Observer<Pair<Int, DummyItem>>{
-            stock.text = "${it.second.name} is currently valued at ${it.second.value}"
+        val portfolioObserver = Observer<Pair<Int, Stock>>{
+            stock.text = "${it.second.symbol} is currently valued at ${it.second.price}"
         }
 
         portfolioViewModel.getSelectedStock().observe(viewLifecycleOwner, portfolioObserver)

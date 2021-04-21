@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stockzprojectapp.models.Stock
 import com.example.stockzprojectapp.databinding.MarketRvItemBinding
-import com.example.stockzprojectapp.models.DummyItem
 
 class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
 
-    private var marketList: List<DummyItem>
+    private var marketList: List<Stock>
     private val listener: ViewHolderListener
 
-    constructor(listener: ViewHolderListener, stocks: List<DummyItem>) : super() {
+    constructor(listener: ViewHolderListener, stocks: List<Stock>) : super() {
         this.marketList = stocks
         this.listener = listener
     }
@@ -28,8 +28,8 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = marketList[position]
-        holder.marketText.text = currentItem.name
-        holder.marketValue.text = currentItem.value.toString()
+        holder.marketText.text = currentItem.symbol
+        holder.marketValue.text = currentItem.price.toString()
     }
 
     override fun getItemCount() = marketList.size

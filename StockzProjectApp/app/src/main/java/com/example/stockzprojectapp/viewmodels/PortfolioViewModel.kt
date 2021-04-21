@@ -3,21 +3,19 @@ package com.example.stockzprojectapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.stockzprojectapp.models.DummyItem
+import com.example.stockzprojectapp.models.Stock
 
 class PortfolioViewModel : ViewModel() {
 
-    private lateinit var stocks: ArrayList<DummyItem>
-    private lateinit var stockSymbols: ArrayList<String?>
-    private var selectedStock = MutableLiveData<Pair<Int, DummyItem>>()
+    private var stocks: ArrayList<Stock>
+    private var selectedStock = MutableLiveData<Pair<Int, Stock>>()
     //private val stockManager = StockManager()
 
     init {
-        loadDummies()
-        loadDummySymbols()
+        this.stocks = generateStockList()
     }
 
-    fun getSelectedStock(): LiveData<Pair<Int, DummyItem>> {
+    fun getSelectedStock(): LiveData<Pair<Int, Stock>> {
         return selectedStock
     }
 
@@ -25,87 +23,24 @@ class PortfolioViewModel : ViewModel() {
         selectedStock.value = Pair(position, stocks[position])
     }
 
-    fun getStocks(): ArrayList<DummyItem> {
+    fun getStocks(): ArrayList<Stock> {
         return stocks
     }
 
-    fun getSymbols(): ArrayList<String?> {
-        return stockSymbols
+    fun addStock(stock: Stock) {
+        this.stocks.add(stock)
     }
 
-    private fun loadDummySymbols() {
-        val symbols = ArrayList<String?>()
-        for (i in stocks){
-            symbols.add(i.name)
+    private fun generateStockList(): ArrayList<Stock>{
+        val list = ArrayList<Stock>()
+        for (i in 1..10){
+            val myStock = Stock(
+                "IBM",
+                200.0f,
+                "16-04-2021 20:00:00"
+            )
+            list.add(myStock)
         }
-        stockSymbols = symbols
+        return list
     }
-
-    private fun loadDummies() {
-        val list = ArrayList<DummyItem>()
-        list.add(DummyItem("ItemNo1", 1))
-        list.add(DummyItem("ItemNo5", 5))
-        list.add(DummyItem("ItemNo10", 10))
-        list.add(DummyItem("ItemNo100", 100))
-        list.add(
-            DummyItem(
-                "ItemNoGameStop",
-                999999999
-            )
-        )
-        list.add(DummyItem("ItemNo1", 1))
-        list.add(DummyItem("ItemNo5", 5))
-        list.add(DummyItem("ItemNo10", 10))
-        list.add(DummyItem("ItemNo100", 100))
-        list.add(
-            DummyItem(
-                "ItemNoGameStop",
-                999999999
-            )
-        )
-        list.add(DummyItem("ItemNo1", 1))
-        list.add(DummyItem("ItemNo5", 5))
-        list.add(DummyItem("ItemNo10", 10))
-        list.add(DummyItem("ItemNo100", 100))
-        list.add(
-            DummyItem(
-                "ItemNoGameStop",
-                999999999
-            )
-        )
-        list.add(DummyItem("ItemNo1", 1))
-        list.add(DummyItem("ItemNo5", 5))
-        list.add(DummyItem("ItemNo10", 10))
-        list.add(DummyItem("ItemNo100", 100))
-        list.add(
-            DummyItem(
-                "ItemNoGameStop",
-                999999999
-            )
-        )
-        list.add(DummyItem("ItemNo1", 1))
-        list.add(DummyItem("ItemNo5", 5))
-        list.add(DummyItem("ItemNo10", 10))
-        list.add(DummyItem("ItemNo100", 100))
-        list.add(
-            DummyItem(
-                "ItemNoGameStop",
-                999999999
-            )
-        )
-        list.add(DummyItem("ItemNo1", 1))
-        list.add(DummyItem("ItemNo5", 5))
-        list.add(DummyItem("ItemNo10", 10))
-        list.add(DummyItem("ItemNo100", 100))
-        list.add(
-            DummyItem(
-                "ItemNoGameStop",
-                999999999
-            )
-        )
-
-        stocks = list
-    }
-
-
 }

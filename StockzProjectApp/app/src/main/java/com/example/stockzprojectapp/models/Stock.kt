@@ -1,4 +1,4 @@
-package com.example.stockzprojectapp
+package com.example.stockzprojectapp.models
 
 import android.content.Context
 import android.view.LayoutInflater

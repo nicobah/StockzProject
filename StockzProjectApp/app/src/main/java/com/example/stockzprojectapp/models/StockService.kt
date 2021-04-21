@@ -1,9 +1,5 @@
-package com.example.stockzprojectapp
+package com.example.stockzprojectapp.models
 
-import android.R
-import android.widget.EditText
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
@@ -28,7 +24,11 @@ class StockService {
                 println("Stock not found")
             } else {
                 uiThread {
-                    myStock = Stock(symbol, price, dateKey)
+                    myStock = Stock(
+                        symbol,
+                        price,
+                        dateKey
+                    )
                     println(myStock.price)
                 }
             }
