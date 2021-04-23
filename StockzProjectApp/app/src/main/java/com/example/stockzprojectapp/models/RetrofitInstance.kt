@@ -24,7 +24,7 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val api : YahooApi by lazy {
+    val yahooApi : YahooApi by lazy {
         retrofit.create(YahooApi::class.java)
     }
 
