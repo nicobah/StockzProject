@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -55,8 +56,8 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
         val viewModelFactory = MarketViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MarketViewModel::class.java)
         viewModel.getPopularLists()
-        viewModel.myRes.observe(viewLifecycleOwner, Observer { res ->
-        })
+
+
         return view
     }
 
