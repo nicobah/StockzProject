@@ -2,6 +2,7 @@ package com.example.stockzprojectapp.views.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.stockzprojectapp.R
+import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.models.Stock
+import com.example.stockzprojectapp.viewmodels.MarketViewModel
+import com.example.stockzprojectapp.viewmodels.MarketViewModelFactory
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
@@ -30,6 +36,8 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
     lateinit var dateKey : String
     lateinit var json: JSONObject
     lateinit var myStock : Stock
+    private lateinit var viewModel: MarketViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +50,13 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
         portfolioButton = view.findViewById(R.id.portfolioButtonId)
         btn.setOnClickListener(this)
         portfolioButton.setOnClickListener(this)
+
+        val repository = Repository()
+        val viewModelFactory = MarketViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MarketViewModel::class.java)
+        viewModel.getPopularLists()
+        viewModel.myRes.observe(viewLifecycleOwner, Observer { res ->
+        })
         return view
     }
 
@@ -100,6 +115,7 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
             ((json["Time Series (5min)"] as JSONObject)[dateKey.toString()] as JSONObject).getString("1. open")
         return todaysStockPrices.toFloat()
     }
+
 
     fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
