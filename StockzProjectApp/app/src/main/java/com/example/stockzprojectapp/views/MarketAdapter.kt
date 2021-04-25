@@ -28,8 +28,11 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = marketList[position]
-        holder.marketText.text = currentItem.symbol
-        holder.marketValue.text = currentItem.price.toString()
+        val totalValue = currentItem.price * currentItem.amount
+        holder.portfolioItemSymbol.text = currentItem.symbol
+        holder.portfolioItemValue.text = currentItem.price.toString()
+        holder.portfolioItemAmount.text = currentItem.amount.toString()
+        holder.portfolioItemTotalValue.text = totalValue.toString()
     }
 
     override fun getItemCount() = marketList.size
@@ -39,9 +42,10 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
     }
 
     class ViewHolder(private val binding: MarketRvItemBinding) : RecyclerView.ViewHolder(binding.root){
-        val marketText: TextView = binding.marketItemName
-        val marketValue: TextView = binding.marketItemValue
-
+        val portfolioItemSymbol: TextView = binding.portfolioItemSymbol
+        val portfolioItemValue: TextView = binding.portfolioItemValue
+        val portfolioItemAmount: TextView = binding.portfolioItemAmount
+        val portfolioItemTotalValue: TextView = binding.portfolioItemTotalvalue
     }
 
     interface ViewHolderListener {
