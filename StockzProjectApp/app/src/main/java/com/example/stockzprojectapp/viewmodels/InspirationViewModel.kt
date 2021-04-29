@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import kotlin.random.Random.Default.nextInt
 
-class MarketViewModel(private val repository: Repository): ViewModel() {
+class InspirationViewModel(private val repository: Repository): ViewModel() {
     lateinit var dateKey: String
     lateinit var json: JSONObject
 

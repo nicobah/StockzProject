@@ -2,29 +2,18 @@ package com.example.stockzprojectapp.views.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.stockzprojectapp.R
 import com.example.stockzprojectapp.databinding.FragmentMarketBinding
-import com.example.stockzprojectapp.databinding.FragmentPortfolioBinding
-import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.models.Stock
-import com.example.stockzprojectapp.viewmodels.MarketViewModel
-import com.example.stockzprojectapp.viewmodels.MarketViewModelFactory
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import java.net.URL
@@ -35,7 +24,6 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
     lateinit var dateKey: String
     lateinit var json: JSONObject
     lateinit var myStock: Stock
-    private lateinit var viewModel: MarketViewModel
     private lateinit var binding: FragmentMarketBinding
 
 
@@ -47,14 +35,6 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
         binding = FragmentMarketBinding.bind(view)
         binding.searchButtonId.setOnClickListener(this)
         binding.portfolioButtonId.setOnClickListener(this)
-
-        val repository = Repository()
-        val viewModelFactory = MarketViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MarketViewModel::class.java)
-        viewModel.getPopularLists()
-
-
-
         return view
     }
 
