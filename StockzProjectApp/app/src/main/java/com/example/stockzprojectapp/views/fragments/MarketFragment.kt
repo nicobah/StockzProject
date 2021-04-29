@@ -52,6 +52,9 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
         val viewModelFactory = MarketViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MarketViewModel::class.java)
         viewModel.getPopularLists()
+
+
+
         return view
     }
 
@@ -88,6 +91,7 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
             json = JSONObject(result)
             dateKey = ((json["Meta Data"] as JSONObject).getString("3. Last Refreshed"))
             var price = getPrice(result)
+
             if (price == -1.0f) {
                 binding.textResultId.setText("Stock not found")
                 binding.numberOfStockId.isEnabled = false
@@ -107,6 +111,7 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
                     binding.numberOfStockId.setText("0")
                     binding.numberOfStockId.isEnabled = true
                     binding.portfolioButtonId.isEnabled = true
+                    binding.inspirationText.text = getPrice("GME").toString()
                 }
             }
 

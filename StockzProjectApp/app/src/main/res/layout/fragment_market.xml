@@ -99,6 +99,16 @@
         app:layout_constraintGuide_percent="0.5"
          />
 
+    <TextView
+        android:id="@+id/inspirationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/portfolioButtonId" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

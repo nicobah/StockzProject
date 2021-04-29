@@ -12,25 +12,22 @@ object RetrofitInstance {
     var logging = HttpLoggingInterceptor()
 
 
-    private val client = OkHttpClient.Builder().apply {
+    private val yahooClient = OkHttpClient.Builder().apply {
         addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
-        addInterceptor(MyInterceptor())
+        addInterceptor(YahooInterceptor())
     }.build()
 
-    private val retrofit by lazy {
+     val yahooApi: YahooApi by lazy {
         Retrofit.Builder()
-            .baseUrl("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/")
-            .client(client)
+            .baseUrl("https://apidojo-yahoo-finance-v1.p.rapidapi.com/")
+            .client(yahooClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(YahooApi::class.java)
     }
-    val yahooApi : YahooApi by lazy {
-        retrofit.create(YahooApi::class.java)
-    }
-
 }
 
-class MyInterceptor: Interceptor {
+class YahooInterceptor: Interceptor {
 
     //Responsible for adding the apikey too all requests sent.
     override fun intercept(chain: Interceptor.Chain): Response {

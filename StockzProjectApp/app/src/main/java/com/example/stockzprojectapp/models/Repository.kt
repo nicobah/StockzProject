@@ -10,4 +10,8 @@ class Repository {
     suspend fun getWatchListDetail(pfId: String, userId: String): Response<Finance>{
         return RetrofitInstance.yahooApi.getWatchListDetail(pfId, userId)
     }
+
+    suspend fun getStockPrice(symbol: String): Response<FinancialsTemplate>{
+        return RetrofitInstance.yahooApi.getStockPrice(symbol)
+    }
 }
