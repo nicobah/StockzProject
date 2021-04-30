@@ -91,7 +91,6 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
                     binding.numberOfStockId.setText("0")
                     binding.numberOfStockId.isEnabled = true
                     binding.portfolioButtonId.isEnabled = true
-                    binding.inspirationText.text = getPrice("GME").toString()
                 }
             }
 
