@@ -5,16 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.stockzprojectapp.R
 import com.example.stockzprojectapp.databinding.FragmentInspirationBinding
 import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.viewmodels.InspirationViewModel
 import com.example.stockzprojectapp.viewmodels.InspirationViewModelFactory
+import com.example.stockzprojectapp.views.InspirationAdapter
 
-class InspirationFragment : Fragment() {
+class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
     private lateinit var viewModel: InspirationViewModel
     private lateinit var binding: FragmentInspirationBinding
+    private lateinit var inspirationAdapter: InspirationAdapter
+
 
 
     override fun onCreateView(
@@ -28,7 +32,21 @@ class InspirationFragment : Fragment() {
         val viewModelFactory = InspirationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(InspirationViewModel::class.java)
         viewModel.getPopularLists()
+        inspirationAdapter = InspirationAdapter(this)
+        inspirationAdapter.setStocks(viewModel.getStocks().value!!)
+        binding.inspirationRv.apply {
+            adapter = inspirationAdapter
+        }
+
+        viewModel.getStocks().observe(viewLifecycleOwner, Observer { array ->
+            inspirationAdapter.setStocks(array)
+        })
+
         return view
+    }
+
+    override fun selectStock(position: Int) {
+        TODO("Not yet implemented")
     }
 
 }
