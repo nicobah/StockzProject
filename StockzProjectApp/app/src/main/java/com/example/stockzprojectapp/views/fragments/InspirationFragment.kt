@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.stockzprojectapp.R
@@ -41,12 +42,16 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         viewModel.getStocks().observe(viewLifecycleOwner, Observer { array ->
             inspirationAdapter.setStocks(array)
         })
+        viewModel.getPortfolioName().observe(viewLifecycleOwner, Observer { name ->
+            binding.listNameText.text = name
+        })
+        binding.refreshButton.text = "Click for a new random portfolio"
 
         return view
     }
 
     override fun selectStock(position: Int) {
-        TODO("Not yet implemented")
+        Toast.makeText(activity, "View $position Clicked", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -22,7 +22,7 @@ interface YahooApi {
 data class Finance(val finance:FinanceData )
 data class FinanceData(val result: List<ResultData> , val error: String)
 data class ResultData(val id: String, val name: String, val total: Int, val portfolios: List<PortfolioData>)
-data class PortfolioData(val userId: String, val pfId: String, val positions: List<PositionData>)
+data class PortfolioData(val userId: String, val pfId: String, val name: String, val positions: List<PositionData>)
 data class PositionData(val symbol: String)
 data class FinancialsTemplate(val price: Price)
 data class Price(val regularMarketOpen: Raw)
