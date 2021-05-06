@@ -13,7 +13,7 @@ import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import com.example.stockzprojectapp.views.fragments.MarketFragment
 import com.example.stockzprojectapp.views.fragments.PortfolioDetailedFragment
 import com.example.stockzprojectapp.views.fragments.PortfolioFragment
-import com.example.stockzprojectapp.views.fragments.SettingsFragment
+import com.example.stockzprojectapp.views.fragments.InspirationFragment
 import java.lang.Thread.sleep
 
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.settings -> {
                     selectedFragment =
-                        SettingsFragment()
+                        InspirationFragment()
                 }
             }
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
