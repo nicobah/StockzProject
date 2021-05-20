@@ -9,11 +9,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
 
+    //use logger for debugging api calls
     var logging = HttpLoggingInterceptor()
 
 
     private val yahooClient = OkHttpClient.Builder().apply {
-        addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
+        //addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
         addInterceptor(YahooInterceptor())
     }.build()
 
@@ -27,7 +28,7 @@ object RetrofitInstance {
     }
     private val alphaClient = OkHttpClient.Builder().apply {
         addInterceptor(AlphaInterceptor())
-        addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
+        //addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
     }.build()
     val alphaApi: AlphaApi by lazy{
         Retrofit.Builder()
