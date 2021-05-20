@@ -11,8 +11,8 @@ class Repository {
         return RetrofitInstance.yahooApi.getWatchListDetail(pfId, userId)
     }
 
-    suspend fun getStockPrice(symbol: String): Response<FinancialsTemplate>{
-        return RetrofitInstance.yahooApi.getStockPrice(symbol)
+    suspend fun getStockInfo(symbol: String): Response<FinancialsTemplate>{
+        return RetrofitInstance.yahooApi.getStockInfo(symbol)
     }
     suspend fun getTimeSeriesIntraDay(symbol: String): Response<GlobalQuote>{
         return RetrofitInstance.alphaApi.getStockInfo( "GLOBAL_QUOTE", symbol)
