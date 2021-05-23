@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -27,6 +28,10 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
     private lateinit var inspirationAdapter: InspirationAdapter
 
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putAll(outState)
+    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreateView(
@@ -40,7 +45,7 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         val view: View = inflater!!.inflate(R.layout.fragment_inspiration, container, false)
         binding = FragmentInspirationBinding.bind(view)
         val repository = Repository()
-        val viewModelFactory = InspirationViewModelFactory(repository)
+        val viewModelFactory = InspirationViewModelFactory(repository, this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(InspirationViewModel::class.java)
         inspirationAdapter = InspirationAdapter(this)
         val  divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)

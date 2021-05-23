@@ -1,10 +1,7 @@
 package com.example.stockzprojectapp.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.stockzprojectapp.models.PortfolioData
 import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.models.Stock
@@ -13,12 +10,14 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.random.Random.Default.nextInt
 
-class InspirationViewModel(private val repository: Repository) : ViewModel() {
+class InspirationViewModel(private val repository: Repository, private val savedStateHandle: SavedStateHandle) : ViewModel() {
+
     private var stockArray = MutableLiveData<ArrayList<Stock>>()
     private var portfolioName = MutableLiveData<String>()
     private lateinit var listOfPortfoliData: List<PortfolioData>
     private var resHasBeenCalled = false
     private var isLoading = MutableLiveData<Boolean>()
+
 
     init {
         stockArray.value = arrayListOf()
