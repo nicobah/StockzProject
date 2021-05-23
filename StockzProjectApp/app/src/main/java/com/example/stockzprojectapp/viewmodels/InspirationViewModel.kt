@@ -18,6 +18,7 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
     private var portfolioName = MutableLiveData<String>()
     private lateinit var listOfPortfoliData: List<PortfolioData>
     private var resHasBeenCalled = false
+    private var isLoading = MutableLiveData<Boolean>()
 
     init {
         stockArray.value = arrayListOf()
@@ -31,6 +32,15 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
     fun getStocks(): LiveData<ArrayList<Stock>> {
         return stockArray
     }
+
+    fun getIsLoading():LiveData<Boolean>{
+        return isLoading
+    }
+
+
+
+
+
 
     fun getPopularListsResponseAndSetWatchList() {
         viewModelScope.launch {
@@ -47,6 +57,7 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
 
     fun setWatchList() {
         viewModelScope.launch {
+            isLoading.postValue(true)
             val random = nextInt(listOfPortfoliData.size - 1)
             val chosenPortfolio = listOfPortfoliData[random]
             val watchListDetails =
@@ -61,8 +72,7 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
             val stockList = createStockList(symbolList)
 
             stockArray.postValue(stockList)
-
-
+            isLoading.postValue(false)
         }
 
     }

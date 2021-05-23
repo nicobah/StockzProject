@@ -33,6 +33,9 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val progressBar = ProgressBar(activity)
+
         // Inflate the layout for this fragment
         val view: View = inflater!!.inflate(R.layout.fragment_inspiration, container, false)
         binding = FragmentInspirationBinding.bind(view)
@@ -47,6 +50,14 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
             adapter = inspirationAdapter
             addItemDecoration(divider)
         }
+
+        viewModel.getIsLoading().observe(viewLifecycleOwner, Observer { b ->
+            if (b == true){
+                progressBar.startLoading()
+            } else{
+                progressBar.dismiss()
+            }
+        })
 
         viewModel.getStocks().observe(viewLifecycleOwner, Observer { array ->
             inspirationAdapter.setStocks(array)
