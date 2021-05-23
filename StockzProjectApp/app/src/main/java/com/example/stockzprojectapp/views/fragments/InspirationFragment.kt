@@ -7,22 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.example.stockzprojectapp.R
 import com.example.stockzprojectapp.databinding.FragmentInspirationBinding
 import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.viewmodels.InspirationViewModel
 import com.example.stockzprojectapp.viewmodels.InspirationViewModelFactory
 import com.example.stockzprojectapp.views.InspirationAdapter
-import com.example.stockzprojectapp.views.MainActivity
 import com.example.stockzprojectapp.views.ProgressBar
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.support.v4.progressDialog
 
 class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
     private lateinit var viewModel: InspirationViewModel

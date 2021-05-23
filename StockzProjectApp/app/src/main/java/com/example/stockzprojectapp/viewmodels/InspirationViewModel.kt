@@ -3,12 +3,8 @@ package com.example.stockzprojectapp.viewmodels
 import androidx.lifecycle.*
 import com.example.stockzprojectapp.models.*
 import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import retrofit2.Response
 import java.lang.Exception
 import kotlin.random.Random.Default.nextInt
 
