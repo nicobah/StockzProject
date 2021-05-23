@@ -34,11 +34,13 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
 
     fun getPopularListsResponseAndSetWatchList() {
         viewModelScope.launch {
-            if (!resHasBeenCalled) {
+            if (!resHasBeenCalled) try {
                 val res = repository.getPopularLists()
                 listOfPortfoliData = res.body()!!.finance.result[0].portfolios
                 resHasBeenCalled = true
                 setWatchList()
+            } catch (e: Exception) {
+                println("Exception")
             }
         }
     }
