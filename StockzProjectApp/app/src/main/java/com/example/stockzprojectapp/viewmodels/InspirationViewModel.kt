@@ -1,27 +1,25 @@
 package com.example.stockzprojectapp.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.stockzprojectapp.models.PortfolioData
 import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.models.Stock
-import com.example.stockzprojectapp.views.ProgressBar
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.random.Random.Default.nextInt
 
 class InspirationViewModel(private val repository: Repository) : ViewModel() {
+
     private var stockArray = MutableLiveData<ArrayList<Stock>>()
     private var portfolioName = MutableLiveData<String>()
     private lateinit var listOfPortfoliData: List<PortfolioData>
     private var resHasBeenCalled = false
+    private var isLoading = MutableLiveData<Boolean>()
+
+
 
     init {
         stockArray.value = arrayListOf()
-        getPopularListsResponseAndSetWatchList()
     }
 
     fun getPortfolioName(): LiveData<String> {
@@ -32,6 +30,16 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
         return stockArray
     }
 
+    fun getIsLoading():LiveData<Boolean>{
+        return isLoading
+    }
+
+
+
+
+
+
+
     fun getPopularListsResponseAndSetWatchList() {
         viewModelScope.launch {
             if (!resHasBeenCalled) try {
@@ -40,31 +48,34 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
                 resHasBeenCalled = true
                 setWatchList()
             } catch (e: Exception) {
-                println("Exception")
+                println(e)
             }
         }
     }
 
-    fun setWatchList() {
-        viewModelScope.launch {
-            val random = nextInt(listOfPortfoliData.size - 1)
-            val chosenPortfolio = listOfPortfoliData[random]
-            val watchListDetails =
-                repository.getWatchListDetail(chosenPortfolio.pfId, chosenPortfolio.userId)
-            portfolioName.postValue(chosenPortfolio.name)
-            val listOfPositions =
-                watchListDetails.body()!!.finance.result[0].portfolios[0].positions
-            val symbolList = arrayListOf<String>()
-            for (i in listOfPositions) {
-                symbolList.add(i.symbol)
+    fun setWatchList()  {
+        if (this::listOfPortfoliData.isInitialized )try {
+            viewModelScope.launch {
+                isLoading.postValue(true)
+                val random = nextInt(listOfPortfoliData.size - 1)
+                val chosenPortfolio = listOfPortfoliData[random]
+                val watchListDetails =
+                    repository.getWatchListDetail(chosenPortfolio.pfId, chosenPortfolio.userId)
+                portfolioName.postValue(chosenPortfolio.name)
+                val listOfPositions =
+                    watchListDetails.body()!!.finance.result[0].portfolios[0].positions
+                val symbolList = arrayListOf<String>()
+                for (i in listOfPositions) {
+                    symbolList.add(i.symbol)
+                }
+                val stockList = createStockList(symbolList)
+
+                stockArray.postValue(stockList)
+                isLoading.postValue(false)
             }
-            val stockList = createStockList(symbolList)
-
-            stockArray.postValue(stockList)
-
-
+        } catch (e: Exception){
+            println(e)
         }
-
     }
 
     private suspend fun createStockList(list: ArrayList<String>): ArrayList<Stock> {
@@ -81,7 +92,7 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
                 result.add(stockI)
             }
         } catch (e: Exception) {
-            println("Exception")
+            println(e)
         }
         return result
     }

@@ -28,6 +28,10 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
     private lateinit var binding: FragmentMarketBinding
 
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
