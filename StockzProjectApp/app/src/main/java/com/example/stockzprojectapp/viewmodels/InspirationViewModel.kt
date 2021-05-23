@@ -1,10 +1,14 @@
 package com.example.stockzprojectapp.viewmodels
 
 import androidx.lifecycle.*
-import com.example.stockzprojectapp.models.PortfolioData
-import com.example.stockzprojectapp.models.Repository
-import com.example.stockzprojectapp.models.Stock
+import com.example.stockzprojectapp.models.*
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import retrofit2.Response
 import java.lang.Exception
 import kotlin.random.Random.Default.nextInt
 
@@ -15,7 +19,7 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
     private lateinit var listOfPortfoliData: List<PortfolioData>
     private var resHasBeenCalled = false
     private var isLoading = MutableLiveData<Boolean>()
-
+    val gson = Gson()
 
 
     init {
@@ -36,24 +40,22 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
 
 
 
-
-
-
-
-    fun getPopularListsResponseAndSetWatchList() {
+     fun getPopularListsResponseAndSetWatchList() {
         viewModelScope.launch {
             if (!resHasBeenCalled) try {
+                isLoading.postValue(true)
                 val res = repository.getPopularLists()
                 listOfPortfoliData = res.body()!!.finance.result[0].portfolios
                 resHasBeenCalled = true
                 setWatchList()
+                isLoading.postValue(false)
             } catch (e: Exception) {
                 println(e)
             }
         }
     }
 
-    fun setWatchList()  {
+    suspend fun setWatchList()  {
         if (this::listOfPortfoliData.isInitialized )try {
             viewModelScope.launch {
                 isLoading.postValue(true)
@@ -61,15 +63,11 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
                 val chosenPortfolio = listOfPortfoliData[random]
                 val watchListDetails =
                     repository.getWatchListDetail(chosenPortfolio.pfId, chosenPortfolio.userId)
+                val tempJson = watchListDetails.body()!!.finance.result[0].quotes
                 portfolioName.postValue(chosenPortfolio.name)
                 val listOfPositions =
                     watchListDetails.body()!!.finance.result[0].portfolios[0].positions
-                val symbolList = arrayListOf<String>()
-                for (i in listOfPositions) {
-                    symbolList.add(i.symbol)
-                }
-                val stockList = createStockList(symbolList)
-
+                var stockList = createListOfStocks(listOfPositions, tempJson)
                 stockArray.postValue(stockList)
                 isLoading.postValue(false)
             }
@@ -78,24 +76,24 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    private suspend fun createStockList(list: ArrayList<String>): ArrayList<Stock> {
+    private fun createListOfStocks(list: List<PositionData>, jsonObj: JsonObject): ArrayList<Stock>{
         val result = ArrayList<Stock>()
-        for (i in list) try {
-            var call = repository.getStockInfo(i)
-            if (call.isSuccessful) {
-                var price = call.body()!!.price.regularMarketOpen.raw
-                var priceEarnings = call.body()!!.defaultKeyStatistics.forwardPE.raw
-                var sector = call.body()!!.summaryProfile.sector
-                val stockI = Stock(i, price.toFloat(), "none")
-                stockI.addPE(priceEarnings.toFloat())
-                stockI.addSector(sector)
-                result.add(stockI)
-            }
-        } catch (e: Exception) {
+        for (i in list)  try {
+            val p = jsonObj[i.symbol]
+            val c = gson.fromJson(p, JsonCasted::class.java)
+            var price = c.regularMarketOpen
+            var priceEarnings = c.forwardPE
+            val stockI = Stock(i.symbol, price.toFloat(), "none")
+            stockI.addPE(priceEarnings.toFloat())
+            stockI.addSector(c.longName)
+            result.add(stockI)
+        } catch (e: Exception){
             println(e)
         }
         return result
     }
 
 }
+
+
 

@@ -9,7 +9,7 @@
         android:layout_margin="0dp">
 
         <TextView
-            android:id="@+id/inspiration_sector"
+            android:id="@+id/inspiration_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="sector"
@@ -21,7 +21,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/inspiration_symbol"
+            android:id="@+id/inspiration_sector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="symbol"

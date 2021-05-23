@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stockzprojectapp.databinding.InspirationRvItemBinding
-import com.example.stockzprojectapp.databinding.MarketRvItemBinding
 import com.example.stockzprojectapp.models.Stock
 
 class InspirationAdapter : RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
@@ -37,7 +36,7 @@ class InspirationAdapter : RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
         holder.symbol.text = "Symbol: " + currentItem.symbol
         holder.price.text = "Price: " + currentItem.price.toString()
         holder.peRatio.text = "P/E ratio: " + currentItem.peRatio.toString()
-        holder.sector.text = "Sector: " + currentItem.sector
+        holder.longName.text =  currentItem.sector
     }
 
     override fun getItemCount() = marketList.size
@@ -50,7 +49,7 @@ class InspirationAdapter : RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
         val symbol: TextView = binding.inspirationSymbol
         val price: TextView = binding.inspirationPrice
         val peRatio: TextView = binding.inspirationPe
-        val sector: TextView = binding.inspirationSector
+        val longName: TextView = binding.inspirationSector
 
     }
 
