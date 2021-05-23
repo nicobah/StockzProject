@@ -34,8 +34,10 @@ class InspirationAdapter : RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = marketList[position]
-        holder.name.text = currentItem.symbol
-        holder.price.text = currentItem.price.toString()
+        holder.symbol.text = "Symbol: " + currentItem.symbol
+        holder.price.text = "Price: " + currentItem.price.toString()
+        holder.peRatio.text = "P/E ratio: " + currentItem.peRatio.toString()
+        holder.sector.text = "Sector: " + currentItem.sector
     }
 
     override fun getItemCount() = marketList.size
@@ -45,8 +47,10 @@ class InspirationAdapter : RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
     }
 
     class ViewHolder(private val binding: InspirationRvItemBinding) : RecyclerView.ViewHolder(binding.root){
-        val name: TextView = binding.inspirationName
+        val symbol: TextView = binding.inspirationSymbol
         val price: TextView = binding.inspirationPrice
+        val peRatio: TextView = binding.inspirationPe
+        val sector: TextView = binding.inspirationSector
 
     }
 

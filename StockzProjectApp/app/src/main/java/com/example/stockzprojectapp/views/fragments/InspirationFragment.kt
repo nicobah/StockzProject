@@ -1,19 +1,25 @@
 package com.example.stockzprojectapp.views.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.example.stockzprojectapp.R
 import com.example.stockzprojectapp.databinding.FragmentInspirationBinding
 import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.viewmodels.InspirationViewModel
 import com.example.stockzprojectapp.viewmodels.InspirationViewModelFactory
 import com.example.stockzprojectapp.views.InspirationAdapter
+import com.example.stockzprojectapp.views.ProgressBar
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
     private lateinit var viewModel: InspirationViewModel
@@ -22,6 +28,7 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
 
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,11 +39,14 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         val repository = Repository()
         val viewModelFactory = InspirationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(InspirationViewModel::class.java)
-        viewModel.getPopularLists()
+        viewModel.getPopularListsResponseAndSetWatchList()
         inspirationAdapter = InspirationAdapter(this)
+        val  divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(requireContext().resources.getDrawable(R.drawable.rec_divider, requireContext().theme))
         inspirationAdapter.setStocks(viewModel.getStocks().value!!)
         binding.inspirationRv.apply {
             adapter = inspirationAdapter
+            addItemDecoration(divider)
         }
 
         viewModel.getStocks().observe(viewLifecycleOwner, Observer { array ->
@@ -45,7 +55,9 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         viewModel.getPortfolioName().observe(viewLifecycleOwner, Observer { name ->
             binding.listNameText.text = name
         })
-        binding.refreshButton.text = "Click for a new random portfolio"
+        binding.refreshButton.onClick {
+            viewModel.setWatchList()
+        }
 
         return view
     }
