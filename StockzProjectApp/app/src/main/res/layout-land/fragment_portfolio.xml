@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="portfolio"
+            type="com.example.stockzprojectapp.models.Portfolio" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".views.fragments.PortfolioFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/portfolio_constraint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/market_rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/labelPortfolioHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Your portfolio stats"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/labelPortfolioTotalValue"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/labelPortfolioTotalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Total value:"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/labelPortfolioStats"
+                app:layout_constraintTop_toBottomOf="@+id/labelPortfolioHeadline" />
+
+            <TextView
+                android:id="@+id/labelPortfolioStats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Stats: "
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelPortfolioTotalValue" />
+
+            <TextView
+                android:id="@+id/textPortfolioTotalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{portfolio.totalValueString}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/labelPortfolioTotalValue"
+                app:layout_constraintStart_toEndOf="@+id/labelPortfolioTotalValue" />
+
+            <TextView
+                android:id="@+id/textPortfolioStats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{portfolio.statsString}"
+                app:layout_constraintBaseline_toBaselineOf="@+id/labelPortfolioStats"
+                app:layout_constraintStart_toEndOf="@+id/labelPortfolioStats" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="180dp"
+                android:layout_height="176dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelPortfolioHeadline"
+                app:srcCompat="@drawable/stock_graph_placeholder" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/market_rv"
+            android:layout_width="400dp"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:padding="4dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6"
+            tools:listitem="@layout/market_rv_item" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="93dp" />
+
+        <TextView
+            android:id="@+id/labelListHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your acquired stocks"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/portfolio_constraint"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelColumn1"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginStart="16dp"
+            android:text="Name"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/market_rv"
+            app:layout_constraintStart_toEndOf="@+id/portfolio_constraint" />
+
+        <TextView
+            android:id="@+id/labelColumn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/market_rv"
+            app:layout_constraintEnd_toStartOf="@+id/labelColumn3"
+            app:layout_constraintHorizontal_bias="0.477"
+            app:layout_constraintStart_toEndOf="@+id/labelColumn1" />
+
+        <TextView
+            android:id="@+id/labelColumn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Value"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/market_rv"
+            app:layout_constraintEnd_toStartOf="@+id/labelColumn4"
+            app:layout_constraintHorizontal_bias="0.628"
+            app:layout_constraintStart_toEndOf="@+id/labelColumn1" />
+
+        <TextView
+            android:id="@+id/labelColumn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
