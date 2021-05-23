@@ -16,7 +16,7 @@ class Stock(symbol: String, price: Float, date: String, amount: Int = 0, sector:
     var sector = sector
     var peRatio = peRatio
 
-    public fun addAmount(amount: Int) {
+    fun addAmount(amount: Int) {
         this.amount += amount
     }
 

@@ -26,19 +26,6 @@ object RetrofitInstance {
             .build()
             .create(YahooApi::class.java)
     }
-    private val alphaClient = OkHttpClient.Builder().apply {
-        addInterceptor(AlphaInterceptor())
-        //addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
-    }.build()
-    val alphaApi: AlphaApi by lazy{
-        Retrofit.Builder()
-            .baseUrl("https://alpha-vantage.p.rapidapi.com/")
-            .client(alphaClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(AlphaApi::class.java)
-    }
-
 
 }
 
@@ -50,18 +37,6 @@ class YahooInterceptor: Interceptor {
             .newBuilder()
             .addHeader("x-rapidapi-key",  "0e46882a0amsh165ddbbfbef0134p158197jsn4f72e95d9562" )
             .addHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com" )
-            .build()
-        return chain.proceed(request)
-    }
-}
-class AlphaInterceptor: Interceptor {
-
-    //Responsible for adding the apikey too all requests sent.
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-            .newBuilder()
-            .addHeader("x-rapidapi-key",  "43603fd304msh82ca5fc6c15d32ep110207jsn4e229711d3d4" )
-            .addHeader("x-rapidapi-host", "alpha-vantage.p.rapidapi.com" )
             .build()
         return chain.proceed(request)
     }
