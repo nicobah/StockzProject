@@ -48,7 +48,7 @@ class YahooInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
             .newBuilder()
-            .addHeader("x-rapidapi-key",  "3062b13ca0msh9e8505e3240b9c5p1d46f9jsn5361e945c536" )
+            .addHeader("x-rapidapi-key",  "0e46882a0amsh165ddbbfbef0134p158197jsn4f72e95d9562" )
             .addHeader("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com" )
             .build()
         return chain.proceed(request)

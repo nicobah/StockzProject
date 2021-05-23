@@ -39,7 +39,6 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         val repository = Repository()
         val viewModelFactory = InspirationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(InspirationViewModel::class.java)
-        viewModel.getPopularListsResponseAndSetWatchList()
         inspirationAdapter = InspirationAdapter(this)
         val  divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         divider.setDrawable(requireContext().resources.getDrawable(R.drawable.rec_divider, requireContext().theme))

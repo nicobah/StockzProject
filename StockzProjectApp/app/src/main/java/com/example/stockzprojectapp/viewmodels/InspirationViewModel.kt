@@ -16,11 +16,12 @@ import kotlin.random.Random.Default.nextInt
 class InspirationViewModel(private val repository: Repository) : ViewModel() {
     private var stockArray = MutableLiveData<ArrayList<Stock>>()
     private var portfolioName = MutableLiveData<String>()
-    private var listOfPortfoliData = listOf<PortfolioData>()
+    private lateinit var listOfPortfoliData: List<PortfolioData>
     private var resHasBeenCalled = false
 
     init {
         stockArray.value = arrayListOf()
+        getPopularListsResponseAndSetWatchList()
     }
 
     fun getPortfolioName(): LiveData<String> {
