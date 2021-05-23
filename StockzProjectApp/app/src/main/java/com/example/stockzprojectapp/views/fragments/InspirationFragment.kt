@@ -42,7 +42,7 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         binding = FragmentInspirationBinding.bind(view)
         val repository = Repository()
         val viewModelFactory = InspirationViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(InspirationViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(InspirationViewModel::class.java)
         inspirationAdapter = InspirationAdapter(this)
         val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         divider.setDrawable(
