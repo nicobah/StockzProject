@@ -19,19 +19,17 @@ import com.example.stockzprojectapp.models.Repository
 import com.example.stockzprojectapp.viewmodels.InspirationViewModel
 import com.example.stockzprojectapp.viewmodels.InspirationViewModelFactory
 import com.example.stockzprojectapp.views.InspirationAdapter
+import com.example.stockzprojectapp.views.MainActivity
 import com.example.stockzprojectapp.views.ProgressBar
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.progressDialog
 
 class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
     private lateinit var viewModel: InspirationViewModel
     private lateinit var binding: FragmentInspirationBinding
     private lateinit var inspirationAdapter: InspirationAdapter
+    private lateinit var progressBar: ProgressBar
 
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putAll(outState)
-    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreateView(
@@ -39,27 +37,35 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        val progressBar = ProgressBar(activity)
-
         // Inflate the layout for this fragment
         val view: View = inflater!!.inflate(R.layout.fragment_inspiration, container, false)
         binding = FragmentInspirationBinding.bind(view)
         val repository = Repository()
-        val viewModelFactory = InspirationViewModelFactory(repository, this)
+        val viewModelFactory = InspirationViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(InspirationViewModel::class.java)
         inspirationAdapter = InspirationAdapter(this)
-        val  divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(requireContext().resources.getDrawable(R.drawable.rec_divider, requireContext().theme))
+        val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(
+            requireContext().resources.getDrawable(
+                R.drawable.rec_divider,
+                requireContext().theme
+            )
+        )
+        if (savedInstanceState == null) {
+            viewModel.getPopularListsResponseAndSetWatchList()
+        }
+
         inspirationAdapter.setStocks(viewModel.getStocks().value!!)
         binding.inspirationRv.apply {
             adapter = inspirationAdapter
             addItemDecoration(divider)
         }
 
+        progressBar = ProgressBar(activity)
         viewModel.getIsLoading().observe(viewLifecycleOwner, Observer { b ->
-            if (b == true){
+            if (b == true) {
                 progressBar.startLoading()
-            } else{
+            } else if (b == false) {
                 progressBar.dismiss()
             }
         })
@@ -79,6 +85,16 @@ class InspirationFragment : Fragment(), InspirationAdapter.ViewHolderListener {
 
     override fun selectStock(position: Int) {
         Toast.makeText(activity, "View $position Clicked", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.getIsLoading().observe(viewLifecycleOwner, Observer { b ->
+            if (b == true) {
+                progressBar.dismiss()
+            }
+        })
+
     }
 
 }

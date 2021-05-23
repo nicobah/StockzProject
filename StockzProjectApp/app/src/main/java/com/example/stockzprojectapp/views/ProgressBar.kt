@@ -10,6 +10,7 @@ class ProgressBar(val activity: Activity?) {
     private lateinit var dialog: AlertDialog
 
     fun startLoading() {
+
         val inflater = activity?.layoutInflater
         val dialogView = inflater?.inflate(R.layout.loading_bar, null)
         val builder = AlertDialog.Builder(activity)
@@ -20,7 +21,9 @@ class ProgressBar(val activity: Activity?) {
 
     }
     fun dismiss(){
-        dialog.dismiss()
+        if(this::dialog.isInitialized) {
+            dialog.dismiss()
+        }
     }
 
 }
