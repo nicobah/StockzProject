@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import com.example.stockzprojectapp.DatabaseHelper
 import com.example.stockzprojectapp.R
 import com.example.stockzprojectapp.databinding.FragmentMarketBinding
 import com.example.stockzprojectapp.models.Stock
@@ -48,16 +49,19 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
             R.id.portfolioButtonId -> {
                 myStock.addAmount(binding.numberOfStockId.text.toString().toInt())
                 portfolioViewModel.addStock(myStock)
-                Toast.makeText(
-                    activity,
-                    "${myStock.amount} stocks of ${myStock.symbol} added to your portfolio!",
-                    Toast.LENGTH_LONG
-                ).show()
+                saveStock(myStock)
+                Toast.makeText(activity, "${myStock.amount} stocks of ${myStock.symbol} added to your portfolio!", Toast.LENGTH_LONG).show()
                 v.hideKeyboard()
             }
             else -> {
             }
         }
+    }
+
+    private fun saveStock(myStock: Stock) {
+        val helper = DatabaseHelper(requireActivity().applicationContext)
+        val db = helper.readableDatabase
+        helper.addStocks(db, myStock)
     }
 
     fun execute(symbol: String) {
@@ -113,4 +117,6 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
+
+
 }

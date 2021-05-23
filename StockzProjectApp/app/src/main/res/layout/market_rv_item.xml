@@ -9,25 +9,59 @@
         android:layout_margin="4dp">
 
         <TextView
-            android:id="@+id/market_item_name"
+            android:id="@+id/portfolio_item_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LineTest"
+            android:layout_marginStart="8dp"
+            android:text="symbol"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/market_item_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/market_item_value"
+            android:id="@+id/portfolio_item_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LineTestTwo"
+            android:layout_marginStart="28dp"
+            android:text="price"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/portfolio_item_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="amount"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/market_item_name"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/portfolio_item_totalvalue"
+            android:layout_width="58dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="85dp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="201dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

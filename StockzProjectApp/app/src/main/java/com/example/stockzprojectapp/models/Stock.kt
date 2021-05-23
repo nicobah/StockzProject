@@ -8,13 +8,13 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import kotlin.properties.Delegates
 
-class Stock(symbol1: String, price1: Float, date1: String) {
-    var symbol : String = symbol1
-    var price : Float = price1
-    var date : String = date1
-    var amount: Int = 0
+class Stock(symbol: String, price: Float, date: String, amount: Int = 0) {
+    var symbol : String = symbol
+    var price : Float = price
+    var date : String = date
+    var amount: Int = amount
 
-    public fun addAmount(amount: Int){
+    fun addAmount(amount: Int){
         this.amount += amount
     }
 }
