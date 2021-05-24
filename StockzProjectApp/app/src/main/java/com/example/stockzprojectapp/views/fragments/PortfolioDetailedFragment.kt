@@ -1,66 +1,55 @@
 package com.example.stockzprojectapp.views.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import com.example.stockzprojectapp.R
+import com.example.stockzprojectapp.databinding.FragmentDetailedPortfolioBinding
 import com.example.stockzprojectapp.models.Stock
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import java.net.URL
 
-class PortfolioDetailedFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListener{
+class PortfolioDetailedFragment(symbol: String) : Fragment(R.layout.fragment_detailed_portfolio){
 
     lateinit var dateKey : String
     lateinit var json: JSONObject
+    private var symbol: String = symbol
 
     private val portfolioViewModel: PortfolioViewModel by activityViewModels()
-    private lateinit var stockSymbol: TextView
-    private lateinit var stockName: TextView
+    //private lateinit var stockName: TextView
     private lateinit var stockValue: TextView
     private lateinit var todayRise: TextView
     private lateinit var todayHigh: TextView
     private lateinit var todayLow: TextView
     private lateinit var openingPrice: TextView
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {val view: View = inflater!!.inflate(R.layout.portfolio_detailed_fragment, container, false)
-        val btn: Button = view.find(R.id.btnStock)
-        btn.setOnClickListener(this)
-        return inflater.inflate(R.layout.portfolio_detailed_fragment, container, false)
-
-    }
+    private lateinit var binding: FragmentDetailedPortfolioBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        stockSymbol = view.findViewById(R.id.stockSymbol)
-        stockName = view.findViewById(R.id.stockName)
-        stockValue = view.findViewById(R.id.totalValue)
-        todayRise = view.findViewById(R.id.todayRise)
-        todayHigh = view.findViewById(R.id.todayHigh)
-        todayLow =view.findViewById(R.id.todayLow)
-        openingPrice = view.findViewById(R.id.openingPrice)
+        binding = FragmentDetailedPortfolioBinding.bind(view)
 
-        val portfolioObserver = Observer<Pair<Int, Stock>>{
-            stockSymbol.text = "${it.second.symbol}"
+        stockValue = binding.stockPrice
+        todayRise = binding.todayRise
+        todayHigh = binding.todayHigh
+        todayLow = binding.todayLow
+        openingPrice = binding.openingPrice
+
+        /*val portfolioObserver = Observer<Pair<Int, Stock>>{
+            binding.stockSymbol.setText("${it.second.symbol}")
             execute("${it.second.symbol}")
-        }
-        portfolioViewModel.getSelectedStock().observe(viewLifecycleOwner, portfolioObserver)
+        }*/
 
+        binding.stockSymbol.setText("$symbol")
+        execute("$symbol")
+
+        //portfolioViewModel.getSelectedStock().observe(viewLifecycleOwner, portfolioObserver)
     }
 
     fun execute(symbol: String) {
@@ -78,7 +67,7 @@ class PortfolioDetailedFragment : Fragment(R.layout.fragment_portfolio), View.On
             if (information == "Invalid"){
             } else {
                 uiThread {
-                    stockName.text = "Not possible"
+                    //stockName.text = "Not possible"
                     stockValue.text = "%.2f".format(information.toDouble())
                 }
             }
@@ -96,7 +85,7 @@ class PortfolioDetailedFragment : Fragment(R.layout.fragment_portfolio), View.On
                 if (information == "Invalid") {
                 } else {
                     uiThread {
-                        stockName.text = "Not possible"
+                        //stockName.text = "Not possible"
                         todayRise.text = "%.2f".format(percentRise * 100) + "% - $" + "%.2f".format(stockValue.text.toString().toDouble() * percentRise)
                         //var myString = myStock.symbol + System.getProperty("line.separator") + myStock.date + System.getProperty("line.separator")  +"$" + myStock.price
                         todayLow.text = "Todays low: $" + "%.2f".format(getInfo(json, "Time Series (Daily)", "3. low", result).toDouble())
@@ -116,29 +105,4 @@ class PortfolioDetailedFragment : Fragment(R.layout.fragment_portfolio), View.On
             ((json[timeFrame] as JSONObject)[dateKey.toString()] as JSONObject).getString(name)
         return information
     }
-
-
-
-    override fun onClick(v: View?) {
-        println("Clicked..")
-        when (v!!.id) {
-            R.id.btnStock -> {
-                println("Button pressed...")
-                //myStock.addAmount(numberOfStocks.text.toString().toInt())
-                //portfolioViewModel.addStock(myStock)
-                //saveStock(myStock)
-                //Toast.makeText(activity, "${myStock.amount} stocks of ${myStock.symbol} added to your portfolio!", Toast.LENGTH_LONG).show()
-                //v.hideKeyboard()
-            }
-            else -> {
-                println("else state..")
-            }
-        }
-    }
-
-    fun View.hideKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(windowToken, 0)
-    }
-
 }

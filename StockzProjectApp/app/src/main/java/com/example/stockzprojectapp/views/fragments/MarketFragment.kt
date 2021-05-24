@@ -8,39 +8,52 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.stockzprojectapp.DatabaseHelper
 import com.example.stockzprojectapp.R
 import com.example.stockzprojectapp.databinding.FragmentMarketBinding
 import com.example.stockzprojectapp.models.Stock
+import com.example.stockzprojectapp.models.StockService
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import java.net.URL
 
-class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListener {
+class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener {
 
     private val portfolioViewModel: PortfolioViewModel by activityViewModels()
     lateinit var dateKey: String
     lateinit var json: JSONObject
     lateinit var myStock: Stock
     private lateinit var binding: FragmentMarketBinding
-
+    private lateinit var dbHelper: DatabaseHelper
+    private lateinit var stockService: StockService
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putString("entered_stock", binding.textStockId.text.toString())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater!!.inflate(R.layout.fragment_market, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding = FragmentMarketBinding.bind(view)
         binding.searchButtonId.setOnClickListener(this)
         binding.portfolioButtonId.setOnClickListener(this)
-        return view
+        stockService = StockService()
+
+        if (savedInstanceState == null) {
+            setElementsVisibility(false)
+            binding.portfolioButtonId.isEnabled = false
+        } else {
+            setElementsVisibility(true)
+            binding.portfolioButtonId.isEnabled = true
+            //execute(savedInstanceState.getString("entered_stock", ""))
+        }
+        dbHelper = DatabaseHelper(requireActivity().applicationContext)
     }
 
     override fun onClick(v: View?) {
@@ -49,12 +62,11 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
                 println("Stock: " + binding.textStockId.text.toString())
                 val stockPrice = execute(binding.textStockId.text.toString())
                 v.hideKeyboard()
+                setElementsVisibility(true)
             }
             R.id.portfolioButtonId -> {
                 myStock.addAmount(binding.numberOfStockId.text.toString().toInt())
-                portfolioViewModel.addStock(myStock)
-                saveStock(myStock)
-                Toast.makeText(activity, "${myStock.amount} stocks of ${myStock.symbol} added to your portfolio!", Toast.LENGTH_LONG).show()
+                lifecycleScope.launch { saveStock(myStock) }
                 v.hideKeyboard()
             }
             else -> {
@@ -63,12 +75,42 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
     }
 
     private fun saveStock(myStock: Stock) {
-        val helper = DatabaseHelper(requireActivity().applicationContext)
-        val db = helper.readableDatabase
-        helper.addStocks(db, myStock)
+        val db = dbHelper.readableDatabase
+        dbHelper.addStocks(db, myStock)
+        portfolioViewModel.addStock(myStock)
+        Toast.makeText(
+            activity,
+            "${myStock.amount} stocks of ${myStock.symbol} added to your portfolio!",
+            Toast.LENGTH_LONG
+        ).show()
+        db.close()
     }
 
     fun execute(symbol: String) {
+        stockService.execute(symbol)
+        doAsync {
+            if (stockService.price == -1.0f) {
+                binding.textResultId.setText("Stock not found")
+                binding.numberOfStockId.isEnabled = false
+                binding.portfolioButtonId.isEnabled = false
+            } else {
+                uiThread {
+                    myStock = Stock(
+                        symbol,
+                        stockService.price,
+                        stockService.dateKey
+                    )
+                    var myString = "${myStock.date}\n$${myStock.price}"
+                    binding.textResultId.setText(myString)
+                    binding.numberOfStockId.setText("0")
+                    binding.numberOfStockId.isEnabled = true
+                    binding.portfolioButtonId.isEnabled = true
+                }
+            }
+        }
+    }
+
+    /*fun execute(symbol: String) {
         val url =
             "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + symbol + "&interval=5min&apikey=KX1X7LVV24I06XJE".format(
                 symbol
@@ -91,10 +133,7 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
                         price,
                         dateKey
                     )
-                    var myString =
-                        myStock.symbol + System.getProperty("line.separator") + myStock.date + System.getProperty(
-                            "line.separator"
-                        ) + "$" + myStock.price
+                    var myString = "${myStock.date}\n$${myStock.price}"
                     binding.textResultId.setText(myString)
                     binding.numberOfStockId.setText("0")
                     binding.numberOfStockId.isEnabled = true
@@ -103,24 +142,24 @@ class MarketFragment : Fragment(R.layout.fragment_portfolio), View.OnClickListen
             }
 
         }
-    }
-
-    fun getPrice(text: String): Float {
-        if (text.trim().length == 0 || ("Invalid" in text)) return -1.0f
-        val message = text
-// get price from today
-        val todaysStockPrices =
-            ((json["Time Series (5min)"] as JSONObject)[dateKey.toString()] as JSONObject).getString(
-                "1. open"
-            )
-        return todaysStockPrices.toFloat()
-    }
-
+    }*/
 
     fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
+    override fun onDestroy() {
+        dbHelper.close()
+        super.onDestroy()
+    }
 
+    private fun setElementsVisibility(visible: Boolean) {
+        binding.portfolioButtonId.isVisible = visible
+        binding.stockResultLabel.isVisible = visible
+        binding.stockAmountLabel.isVisible = visible
+        binding.stockGraphLabel.isVisible = visible
+        binding.numberOfStockId.isVisible = visible
+        binding.stockGraphImage.isVisible = visible
+    }
 }

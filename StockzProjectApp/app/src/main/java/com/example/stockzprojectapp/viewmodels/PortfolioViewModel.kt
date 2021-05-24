@@ -1,5 +1,6 @@
 package com.example.stockzprojectapp.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,5 +29,9 @@ class PortfolioViewModel : ViewModel() {
 
     fun clearStocks(){
         this.stocks = arrayListOf()
+    }
+
+    fun clearSelectedStock(){
+        this.selectedStock = MutableLiveData<Pair<Int, Stock>>()
     }
 }

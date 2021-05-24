@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".views.fragments.PortfolioDetailedFragment">
+
+        <EditText
+            android:id="@+id/stockSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/text_input_border_invisible"
+            android:ems="10"
+            android:inputType="none"
+            android:text=""
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_horizontal|center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailedHeadline" />
+
+        <EditText
+            android:id="@+id/todayRise"
+            android:layout_width="211dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/text_input_border_invisible"
+            android:ems="10"
+            android:inputType="none"
+            android:text=""
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_horizontal|center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockPrice" />
+
+        <EditText
+            android:id="@+id/stockPrice"
+            android:layout_width="210dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/text_input_border_invisible"
+            android:ems="10"
+            android:inputType="none"
+            android:text=""
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_horizontal|center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockSymbol" />
+
+        <TextView
+            android:id="@+id/informationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Important information:"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.12"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockGraphImage" />
+
+        <TextView
+            android:id="@+id/todayLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/todayHigh"
+            app:layout_constraintTop_toBottomOf="@+id/todayHigh" />
+
+        <TextView
+            android:id="@+id/todayHigh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/informationText"
+            app:layout_constraintTop_toBottomOf="@+id/informationText" />
+
+        <TextView
+            android:id="@+id/openingPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/todayLow"
+            app:layout_constraintTop_toBottomOf="@+id/todayLow" />
+
+        <TextView
+            android:id="@+id/detailedHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Viewing stock:"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/stockPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current price per share:"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/stockPrice"
+            app:layout_constraintStart_toStartOf="@+id/stockPrice" />
+
+        <TextView
+            android:id="@+id/todayRiseLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today's rise:"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/todayRise"
+            app:layout_constraintStart_toStartOf="@+id/todayRise" />
+
+        <ImageView
+            android:id="@+id/stockGraphImage"
+            android:layout_width="278dp"
+            android:layout_height="199dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todayRise"
+            app:srcCompat="@drawable/stock_graph_default_img" />
+
+        <TextView
+            android:id="@+id/stockGraphLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock graph:"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/stockGraphImage"
+            app:layout_constraintStart_toStartOf="@+id/stockGraphImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

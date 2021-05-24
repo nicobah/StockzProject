@@ -4,7 +4,7 @@ class Stock(symbol: String, price: Float, date: String, amount: Int = 0, sector:
     var symbol: String = symbol
     var price: Float = price
     var date: String = date
-    var amount: Int = 0
+    var amount: Int = amount
     var sector = sector
     var peRatio = peRatio
 

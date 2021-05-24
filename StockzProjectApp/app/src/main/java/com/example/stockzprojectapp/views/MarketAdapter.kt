@@ -1,8 +1,10 @@
 package com.example.stockzprojectapp.views
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stockzprojectapp.models.Stock
 import com.example.stockzprojectapp.databinding.MarketRvItemBinding
@@ -10,11 +12,17 @@ import com.example.stockzprojectapp.databinding.MarketRvItemBinding
 class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
 
     private var marketList: List<Stock>
-    private val listener: ViewHolderListener
 
-    constructor(listener: ViewHolderListener, stocks: List<Stock>) : super() {
+    //private val listener: ViewHolderListener
+    var onItemClick: ((Stock) -> Unit)? = null
+
+    /*constructor(listener: ViewHolderListener, stocks: List<Stock>) : super() {
         this.marketList = stocks
         this.listener = listener
+    }*/
+
+    constructor(stocks: List<Stock>) : super() {
+        this.marketList = stocks
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,7 +30,7 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
             ViewHolder(
                 MarketRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
-        vHolder.itemView.setOnClickListener { _ -> selectStock(vHolder.adapterPosition) }
+        //vHolder.itemView.setOnClickListener { _ -> selectStock(vHolder.adapterPosition) }
         return vHolder
     }
 
@@ -30,25 +38,33 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
         val currentItem = marketList[position]
         val totalValue = currentItem.price * currentItem.amount
         holder.portfolioItemSymbol.text = currentItem.symbol
-        holder.portfolioItemValue.text = currentItem.price.toString()
+        holder.portfolioItemValue.text = "$%.2f".format(currentItem.price)
         holder.portfolioItemAmount.text = currentItem.amount.toString()
-        holder.portfolioItemTotalValue.text = totalValue.toString()
+        holder.portfolioItemTotalValue.text = "$%.2f".format(totalValue)
     }
 
     override fun getItemCount() = marketList.size
 
-    fun selectStock(position: Int){
-        listener.selectStock(position)
-    }
 
-    class ViewHolder(private val binding: MarketRvItemBinding) : RecyclerView.ViewHolder(binding.root){
+    /*fun selectStock(position: Int){
+        listener.selectStock(position)
+    }*/
+
+    inner class ViewHolder(private val binding: MarketRvItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val portfolioItemSymbol: TextView = binding.portfolioItemSymbol
         val portfolioItemValue: TextView = binding.portfolioItemValue
         val portfolioItemAmount: TextView = binding.portfolioItemAmount
         val portfolioItemTotalValue: TextView = binding.portfolioItemTotalvalue
-    }
 
-    interface ViewHolderListener {
-        fun selectStock(position: Int)
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(marketList[adapterPosition])
+            }
+
+        }
     }
+    /*interface ViewHolderListener {
+        fun selectStock(position: Int)
+    }*/
 }

@@ -31,20 +31,10 @@ class Portfolio {
     }
 
     fun getTotalValueString() : String{
-        return this.totalValue.toString()
+        return "$%.2f".format(this.totalValue)
     }
 
     fun getStatsString() : String{
         return this.stats.toString() + "%"
-    }
-
-    fun addStocks(stockSymbol: String, amount: Int){
-        var totalAmount = amount
-
-        if(this.myStocks.containsKey(stockSymbol)){
-             totalAmount += this.myStocks[stockSymbol]!!
-        }
-
-        this.myStocks[stockSymbol] = amount
     }
 }

@@ -4,15 +4,20 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.stockzprojectapp.models.Stock
+import org.jetbrains.anko.XHDPI
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "STOCKDB", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE STOCKS(STOCKID INTEGER PRIMARY KEY AUTOINCREMENT, SYMBOL TEXT, AMOUNT INTEGER)")
+        db?.execSQL("CREATE TABLE STOCKS(STOCKID INTEGER PRIMARY KEY AUTOINCREMENT, SYMBOL TEXT, BOUGHT_PRICE FLOAT, AMOUNT INTEGER)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 
+    }
+
+    fun deleteDB(db: SQLiteDatabase?){
+        db?.execSQL("DROP TABLE STOCKS")
     }
 
     fun clearDB(db: SQLiteDatabase?){
@@ -20,6 +25,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "STOCKDB", nu
     }
 
     fun addStocks(db: SQLiteDatabase?, stock: Stock){
-        db?.execSQL("INSERT INTO STOCKS(SYMBOL, AMOUNT) VALUES('${stock.symbol}', ${stock.amount})")
+        db?.execSQL("INSERT INTO STOCKS(SYMBOL, BOUGHT_PRICE, AMOUNT) VALUES('${stock.symbol}', ${stock.price}, ${stock.amount})")
     }
 }

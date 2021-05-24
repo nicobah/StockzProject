@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".views.fragments.MarketFragment">
+
+        <EditText
+            android:id="@+id/textStockId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/text_input_border"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:inputType="textPersonName"
+            android:text="TSLA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marketHeadlineLabel" />
+
+        <EditText
+            android:id="@+id/numberOfStockId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/text_input_border"
+            android:ems="10"
+            android:gravity="center_horizontal"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="@+id/stockAmountLabel"
+            app:layout_constraintTop_toBottomOf="@+id/stockAmountLabel" />
+
+        <Button
+            android:id="@+id/searchButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textStockId" />
+
+        <Button
+            android:id="@+id/portfolioButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:enabled="false"
+            android:text="Add to portfolio"
+            app:layout_constraintStart_toStartOf="@+id/numberOfStockId"
+            app:layout_constraintTop_toBottomOf="@+id/numberOfStockId" />
+
+        <EditText
+            android:id="@+id/textResultId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/text_input_border_invisible"
+            android:clickable="false"
+            android:ems="10"
+            android:focusable="false"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center_horizontal|center_vertical"
+            android:inputType="none"
+            android:maxLines="3"
+            android:minLines="3"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:text=""
+            app:layout_constraintStart_toStartOf="@+id/stockResultLabel"
+            app:layout_constraintTop_toBottomOf="@+id/stockResultLabel" />
+
+        <TextView
+            android:id="@+id/marketHeadlineLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Search the stock market"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/stockIDLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock name:"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textStockId"
+            app:layout_constraintStart_toStartOf="@+id/textStockId" />
+
+        <TextView
+            android:id="@+id/stockResultLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Stock price per share:"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/stockIDLabel"
+            app:layout_constraintStart_toEndOf="@+id/textStockId" />
+
+        <TextView
+            android:id="@+id/stockAmountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Enter amount you wish to add:"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/stockResultLabel"
+            app:layout_constraintStart_toEndOf="@+id/textResultId" />
+
+        <ImageView
+            android:id="@+id/stockGraphImage"
+            android:layout_width="350dp"
+            android:layout_height="151dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockGraphLabel"
+            app:srcCompat="@drawable/stock_graph_default_img" />
+
+        <TextView
+            android:id="@+id/stockGraphLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Stock graph:"
+            app:layout_constraintStart_toStartOf="@+id/stockGraphImage"
+            app:layout_constraintTop_toBottomOf="@+id/textResultId" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
