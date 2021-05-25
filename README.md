@@ -1,1 +1,28 @@
-StockzProject
+*StockzProject by Nicolai Bah, Jonas Grøn & Alexander Tholle*
+
+**User-Guide**
+
+Here is a guide for new users on what the Stockz app can do and how to use it. The guide is divided into the three tabs that are present in the app, which represent the three main functionalities of the app.
+
+**Portfolio:**
+
+Here you can see your own personal portfolio, including the prices of the stocks per share when you added them, the amount and their total value. At the top of the screen you can find your portfolio overall stats such as its total value and the overall stats (whether it has increased or decreased in value).
+
+Pressing on any of your stocks in the list will take you to a detailed view of that stock. Here you can see the current price per share, todays rise (in percentage) and other important information such as todays high, low and opening price.
+
+**Market:**
+
+Here you can search the market for any stock you would like to inspect and/or add to your personal portfolio. Enter the short name for the stock (i.e. TSLA for Tesla) and press search. When searching you will be presented with the current price per share and a field where you can enter an amount of the stock you wish to add to your own portfolio.
+
+**Inspiration:**
+
+Here you can get some inspiration of what stocks you might want to add to your own portfolio. You will be presented with a randomly selected themed list of stocks (fx. Tech Stocks etc.). You can always press the button to get a new random list.
+
+
+**Key functionalities**
+
+The app features the following key functionalities:
+- *API Calls to get stocks + information*
+- *External network library Retrofit to ease the use of APIs*
+- *Multi-threading and Coroutines to ensure a positive user experience*
+- *SQLite database to save your personal portfolio locally*
