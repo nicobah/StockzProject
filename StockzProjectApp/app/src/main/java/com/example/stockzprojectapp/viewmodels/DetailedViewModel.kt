@@ -3,18 +3,17 @@ package com.example.stockzprojectapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.stockzprojectapp.models.Stock
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import java.net.URL
+
 
 class DetailedViewModel: ViewModel() {
 
     lateinit var dateKey : String
     lateinit var json: JSONObject
     private var stockPrice = MutableLiveData<String>()
-    private var percentRise = MutableLiveData<Float>()
+    private var percentRise = MutableLiveData<String>()
     private var todayHigh = MutableLiveData<Float>()
     private var todayLow = MutableLiveData<Float>()
     private var openingPrice = MutableLiveData<Float>()
@@ -23,7 +22,7 @@ class DetailedViewModel: ViewModel() {
         return stockPrice
     }
 
-    fun getPercentRise(): LiveData<Float> {
+    fun getPercentRise(): LiveData<String> {
         return percentRise
     }
     fun getTodayHigh(): LiveData<Float>{
@@ -54,7 +53,6 @@ class DetailedViewModel: ViewModel() {
             //var percentRise = ((informationDaily.toDouble() - information5min.toDouble())/informationDaily.toDouble())
             if (information == "Invalid"){
             } else {
-                println("Invaliud")
                     stockPrice.postValue(information)
             }
             doAsync {
@@ -62,7 +60,11 @@ class DetailedViewModel: ViewModel() {
                 json = JSONObject(result)
                 dateKey = ((json["Meta Data"] as JSONObject).getString("3. Last Refreshed"))
                 var information = getInfo(json, "Time Series (Daily)", "4. close", result)
-                percentRise.postValue((information.toFloat()-getStockPrice().value!!.toFloat()) / information.toFloat()*100)
+
+                var rise = (information.toFloat()-getStockPrice().value!!.toFloat()) / information.toFloat()*100
+
+
+                percentRise.postValue("%.2f".format(rise.toDouble()) + "%")
                 todayHigh.postValue( getInfo(json, "Time Series (Daily)", "2. high", result).toFloat())
                 todayLow.postValue(getInfo(json, "Time Series (Daily)", "3. low", result).toFloat())
                 openingPrice.postValue(getInfo(json, "Time Series (Daily)", "1. open", result).toFloat())
