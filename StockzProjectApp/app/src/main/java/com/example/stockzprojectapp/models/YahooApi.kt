@@ -12,9 +12,7 @@ interface YahooApi {
 
     @GET("market/get-watchlist-detail")
     suspend fun getWatchListDetail(@Query("pfId") pfId: String, @Query("userId") userId: String): Response<Finance>
-
 }
-
 
 data class Finance(val finance:FinanceData )
 data class FinanceData(val result: List<ResultData> , val error: String)

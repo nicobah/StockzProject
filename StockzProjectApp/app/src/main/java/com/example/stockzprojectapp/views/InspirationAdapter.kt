@@ -36,7 +36,7 @@ class InspirationAdapter : RecyclerView.Adapter<InspirationAdapter.ViewHolder> {
         holder.symbol.text = "Symbol: " + currentItem.symbol
         holder.price.text = "Price: " + currentItem.price.toString()
         holder.peRatio.text = "P/E ratio: " + currentItem.peRatio.toString()
-        holder.longName.text =  currentItem.sector
+        holder.longName.text =  currentItem.longName
     }
 
     override fun getItemCount() = marketList.size

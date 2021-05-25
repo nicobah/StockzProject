@@ -38,6 +38,7 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
         super.onSaveInstanceState(outState)
         outState.putString("entered_stock", binding.textStockId.text.toString())
         outState.putBoolean("isVisible", binding.stockResultLabel.isVisible)
+        outState.putParcelable("myStock", myStock)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,14 +47,15 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
         binding.searchButtonId.setOnClickListener(this)
         binding.portfolioButtonId.setOnClickListener(this)
         stockService = StockService()
+        myStock = Stock("", 0F, "")
 
         if (savedInstanceState != null && savedInstanceState.getBoolean("isVisible")) {
             setElementsVisibility(true)
             binding.portfolioButtonId.isEnabled = true
+            myStock = savedInstanceState.getParcelable("myStock")!!
         } else {
             setElementsVisibility(false)
             binding.portfolioButtonId.isEnabled = false
-            //execute(savedInstanceState.getString("entered_stock", ""))
         }
         dbHelper = DatabaseHelper(requireActivity().applicationContext)
     }

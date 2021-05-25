@@ -12,14 +12,7 @@ import com.example.stockzprojectapp.databinding.MarketRvItemBinding
 class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
 
     private var marketList: List<Stock>
-
-    //private val listener: ViewHolderListener
     var onItemClick: ((Stock) -> Unit)? = null
-
-    /*constructor(listener: ViewHolderListener, stocks: List<Stock>) : super() {
-        this.marketList = stocks
-        this.listener = listener
-    }*/
 
     constructor(stocks: List<Stock>) : super() {
         this.marketList = stocks
@@ -30,7 +23,6 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
             ViewHolder(
                 MarketRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
-        //vHolder.itemView.setOnClickListener { _ -> selectStock(vHolder.adapterPosition) }
         return vHolder
     }
 
@@ -44,11 +36,6 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
     }
 
     override fun getItemCount() = marketList.size
-
-
-    /*fun selectStock(position: Int){
-        listener.selectStock(position)
-    }*/
 
     inner class ViewHolder(private val binding: MarketRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -64,7 +51,4 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder> {
 
         }
     }
-    /*interface ViewHolderListener {
-        fun selectStock(position: Int)
-    }*/
 }

@@ -1,10 +1,7 @@
 package com.example.stockzprojectapp.models
 
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import java.net.URL
-
 
 class StockService {
 

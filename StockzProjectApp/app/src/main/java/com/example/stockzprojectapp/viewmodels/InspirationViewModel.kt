@@ -12,11 +12,10 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
 
     private var stockArray = MutableLiveData<ArrayList<Stock>>()
     private var portfolioName = MutableLiveData<String>()
-    private lateinit var listOfPortfoliData: List<PortfolioData>
+    private lateinit var listOfPortfolioData: List<PortfolioData>
     private var resHasBeenCalled = false
     private var isLoading = MutableLiveData<Boolean>()
     val gson = Gson()
-
 
     init {
         stockArray.value = arrayListOf()
@@ -34,14 +33,12 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
         return isLoading
     }
 
-
-
      fun getPopularListsResponseAndSetWatchList() {
         viewModelScope.launch {
             if (!resHasBeenCalled) try {
                 isLoading.postValue(true)
                 val res = repository.getPopularLists()
-                listOfPortfoliData = res.body()!!.finance.result[0].portfolios
+                listOfPortfolioData = res.body()!!.finance.result[0].portfolios
                 resHasBeenCalled = true
                 setWatchList()
                 isLoading.postValue(false)
@@ -52,11 +49,11 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
     }
 
     suspend fun setWatchList()  {
-        if (this::listOfPortfoliData.isInitialized )try {
+        if (this::listOfPortfolioData.isInitialized )try {
             viewModelScope.launch {
                 isLoading.postValue(true)
-                val random = nextInt(listOfPortfoliData.size - 1)
-                val chosenPortfolio = listOfPortfoliData[random]
+                val random = nextInt(listOfPortfolioData.size - 1)
+                val chosenPortfolio = listOfPortfolioData[random]
                 val watchListDetails =
                     repository.getWatchListDetail(chosenPortfolio.pfId, chosenPortfolio.userId)
                 val tempJson = watchListDetails.body()!!.finance.result[0].quotes
@@ -81,7 +78,7 @@ class InspirationViewModel(private val repository: Repository) : ViewModel() {
             var priceEarnings = c.forwardPE
             val stockI = Stock(i.symbol, price.toFloat(), "none")
             stockI.addPE(priceEarnings.toFloat())
-            stockI.addSector(c.longName)
+            stockI.addLongName(c.longName)
             result.add(stockI)
         } catch (e: Exception){
             println(e)

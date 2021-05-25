@@ -39,13 +39,10 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio){
 
         dbHelper = DatabaseHelper(requireActivity().applicationContext)
 
-        //val listener = this
-
         lifecycleScope.launch {
             loadViewModel()
             loadPortfolio()
 
-            //marketAdapter = MarketAdapter(listener, stocklist)
             marketAdapter = MarketAdapter(stocklist)
 
             binding.marketRv.apply {
@@ -59,11 +56,6 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio){
             }
         }
     }
-
-    /*override fun selectStock(position: Int) {
-        Toast.makeText(activity, "View $position Clicked", Toast.LENGTH_SHORT).show()
-        portfolioViewModel.selectStockAt(position)
-    }*/
 
     fun loadViewModel(){
         portfolioViewModel.clearStocks()

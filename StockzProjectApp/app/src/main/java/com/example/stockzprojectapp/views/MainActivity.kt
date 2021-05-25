@@ -19,10 +19,8 @@ import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity(), SelectedFragmentListener {
 
-    private val portfolioViewModel: PortfolioViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var currentFragment: Fragment
-    private var restored: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,25 +36,6 @@ class MainActivity : AppCompatActivity(), SelectedFragmentListener {
             PortfolioFragment()
         } else {
             supportFragmentManager.getFragment(savedInstanceState, "fragment")!!
-        }
-
-        Log.d("Selected Fragment", currentFragment.toString())
-
-        restored = (savedInstanceState == null)
-
-        when(currentFragment){
-            is PortfolioFragment -> {
-                Log.d("Loaded Fragment", "Portfolio fragment")
-            }
-            is PortfolioDetailedFragment -> {
-                Log.d("Loaded Fragment", "Portfolio detailed fragment")
-            }
-            is MarketFragment -> {
-                Log.d("Loaded Fragment", "Market fragment")
-            }
-            is InspirationFragment -> {
-                Log.d("Loaded Fragment", "Inspiration fragment")
-            }
         }
 
         supportFragmentManager.beginTransaction()
@@ -82,37 +61,10 @@ class MainActivity : AppCompatActivity(), SelectedFragmentListener {
             //returns true for selected menu item
             return@setOnNavigationItemSelectedListener true
         }
-
-        /*val portfolioObserver = Observer<Pair<Int, Stock>> {
-            val newFragment = PortfolioDetailedFragment()
-
-            val transaction = supportFragmentManager.beginTransaction()
-
-            transaction.replace(R.id.fragment_container, newFragment).addToBackStack("")
-
-            selectedFragment = newFragment
-
-            transaction.commit()
-        }
-        portfolioViewModel.getSelectedStock().observe(this, portfolioObserver)*/
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        when(currentFragment){
-            is PortfolioFragment -> {
-                Log.d("Saved Fragment", "Portfolio fragment")
-            }
-            is PortfolioDetailedFragment -> {
-                Log.d("Saved Fragment", "Portfolio detailed fragment")
-            }
-            is MarketFragment -> {
-                Log.d("Saved Fragment", "Market fragment")
-            }
-            is InspirationFragment -> {
-                Log.d("Saved Fragment", "Inspiration fragment")
-            }
-        }
         supportFragmentManager.putFragment(outState, "fragment", currentFragment)
     }
 

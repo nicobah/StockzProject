@@ -35,9 +35,6 @@ class DetailedViewModel: ViewModel() {
         return openingPrice
     }
 
-
-
-
     fun execute(symbol: String) {
         val url5min = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + symbol + "&interval=5min&apikey=KX1X7LVV24I06XJE".format(symbol)
         val urlDaily = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + symbol + "&apikey=KX1X7LVV24I06XJE".format(symbol)
@@ -76,7 +73,7 @@ class DetailedViewModel: ViewModel() {
     fun getInfo(json: JSONObject, timeFrame: String, name: String, text: String): String {
         if (text.trim().length == 0 || ("Invalid" in text)) return "Invalid"
         val message = text
-// get information from today
+        // get information from today
         val information =
             ((json[timeFrame] as JSONObject)[dateKey.toString()] as JSONObject).getString(name)
         return information

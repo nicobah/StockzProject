@@ -9,12 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
 
-    //use logger for debugging api calls
-    var logging = HttpLoggingInterceptor()
-
-
     private val yahooClient = OkHttpClient.Builder().apply {
-        //addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
         addInterceptor(YahooInterceptor())
     }.build()
 
@@ -30,7 +25,6 @@ object RetrofitInstance {
 }
 
 class YahooInterceptor: Interceptor {
-
     //Responsible for adding the apikey too all requests sent.
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

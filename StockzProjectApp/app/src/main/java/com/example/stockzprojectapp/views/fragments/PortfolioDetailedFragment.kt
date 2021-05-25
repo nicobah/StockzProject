@@ -36,9 +36,6 @@ class PortfolioDetailedFragment(symbol: String = "") :
         viewModel = ViewModelProvider(this).get(DetailedViewModel::class.java)
         viewModel.execute(symbol)
 
-
-
-
         binding = FragmentDetailedPortfolioBinding.bind(view)
 
         stockValue = binding.stockPrice
@@ -63,14 +60,7 @@ class PortfolioDetailedFragment(symbol: String = "") :
             binding.openingPrice.text = "Opening price: $it"
         })
 
-        /*val portfolioObserver = Observer<Pair<Int, Stock>>{
-            binding.stockSymbol.setText("${it.second.symbol}")
-            execute("${it.second.symbol}")
-        }*/
-
         binding.stockSymbol.setText("$symbol")
-
-        //portfolioViewModel.getSelectedStock().observe(viewLifecycleOwner, portfolioObserver)
     }
 
 
