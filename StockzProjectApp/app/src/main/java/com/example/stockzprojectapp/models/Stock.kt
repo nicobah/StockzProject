@@ -13,9 +13,10 @@ class Stock(symbol: String, price: Float, date: String, amount: Int = 0, sector:
     }
 
     fun addSector(sector: String) {
-    this.sector = sector
-}
-    fun addPE(pe: Float){
+        this.sector = sector
+    }
+
+    fun addPE(pe: Float) {
         this.peRatio = pe
     }
 }
