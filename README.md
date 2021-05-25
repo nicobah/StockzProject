@@ -26,3 +26,8 @@ The app features the following key functionalities:
 - *External network library Retrofit to ease the use of APIs*
 - *Multi-threading and Coroutines to ensure a positive user experience*
 - *SQLite database to save your personal portfolio locally*
+
+
+**Important Information**
+
+As the app is using free APIs, there are some limitations. You can only make 5 API calls within 30-60 seconds of eachother, meaning if you suddenly stop seeing stock information, you have to wait a minute and try again. This applies for all three core functionalities (portfolio, market and inspiration). If you wait several minutes and it still does not provide stock information / inspiration list, it is most likely because the API key has expired. Please message us directly, so we can create a new key for you.
