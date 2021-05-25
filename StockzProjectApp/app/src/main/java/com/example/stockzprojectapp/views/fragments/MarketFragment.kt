@@ -17,6 +17,7 @@ import com.example.stockzprojectapp.databinding.FragmentMarketBinding
 import com.example.stockzprojectapp.models.Stock
 import com.example.stockzprojectapp.models.StockService
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -88,36 +89,14 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
     }
 
     fun execute(symbol: String) {
-        stockService.execute(symbol)
-        if (stockService.price == -1.0f) {
-            binding.textResultId.setText("Stock not found")
-            binding.numberOfStockId.isEnabled = false
-            binding.portfolioButtonId.isEnabled = false
-        } else {
-            myStock = Stock(
-                symbol,
-                stockService.price,
-                stockService.dateKey
-            )
-            var myString = "${myStock.date}\n$${myStock.price}"
-            binding.textResultId.setText(myString)
-            binding.numberOfStockId.setText("0")
-            binding.numberOfStockId.isEnabled = true
-            binding.portfolioButtonId.isEnabled = true
-        }
-    }
-
-    /*fun execute(symbol: String) {
-        val url =
-            "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + symbol + "&interval=5min&apikey=KX1X7LVV24I06XJE".format(
-                symbol
-            )
         // send the URL request and read the response as a asyncrone call
-        val fetch = doAsync {
-            val result = URL(url).readText()
-            json = JSONObject(result)
-            dateKey = ((json["Meta Data"] as JSONObject).getString("3. Last Refreshed"))
-            var price = getPrice(result)
+        doAsync {
+            val url =
+                "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + symbol + "&interval=5min&apikey=KX1X7LVV24I06XJE".format(
+                    symbol
+                )
+            dateKey = stockService.execute(symbol, url)
+            var price = stockService.getPrice(url, dateKey)
 
             if (price == -1.0f) {
                 binding.textResultId.setText("Stock not found")
@@ -139,7 +118,7 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
             }
 
         }
-    }*/
+    }
 
     fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
