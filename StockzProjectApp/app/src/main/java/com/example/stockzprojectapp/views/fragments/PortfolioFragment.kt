@@ -1,5 +1,6 @@
 package com.example.stockzprojectapp.views.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import com.example.stockzprojectapp.DatabaseHelper
 import com.example.stockzprojectapp.viewmodels.PortfolioViewModel
 import com.example.stockzprojectapp.R
+import com.example.stockzprojectapp.SelectedFragmentListener
 import com.example.stockzprojectapp.models.Stock
 import com.example.stockzprojectapp.databinding.FragmentPortfolioBinding
 import com.example.stockzprojectapp.models.Portfolio
 import com.example.stockzprojectapp.views.MarketAdapter
 import kotlinx.coroutines.launch
+import java.lang.ClassCastException
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
@@ -27,6 +30,7 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio){
     private lateinit var binding: FragmentPortfolioBinding
     private lateinit var portfolio: Portfolio
     private lateinit var dbHelper: DatabaseHelper
+    private lateinit var listener: SelectedFragmentListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +39,7 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio){
 
         dbHelper = DatabaseHelper(requireActivity().applicationContext)
 
-        val listener = this
+        //val listener = this
 
         lifecycleScope.launch {
             loadViewModel()
@@ -50,6 +54,7 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio){
 
             marketAdapter.onItemClick =  {
                 val newFragment = PortfolioDetailedFragment(it.symbol)
+                listener.setSelectedFragment(newFragment)
                 parentFragmentManager.beginTransaction().replace(R.id.fragment_container, newFragment).addToBackStack("").commit()
             }
         }
@@ -104,5 +109,14 @@ class PortfolioFragment : Fragment(R.layout.fragment_portfolio){
     override fun onDestroy() {
         if(this::dbHelper.isInitialized) dbHelper.close()
         super.onDestroy()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            listener = context as SelectedFragmentListener
+        } catch (ex: ClassCastException){
+            //Activity does not implement listener
+        }
     }
 }

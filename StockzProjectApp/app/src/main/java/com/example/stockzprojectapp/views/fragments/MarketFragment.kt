@@ -36,6 +36,7 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("entered_stock", binding.textStockId.text.toString())
+        outState.putBoolean("isVisible", binding.stockResultLabel.isVisible)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,12 +46,12 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
         binding.portfolioButtonId.setOnClickListener(this)
         stockService = StockService()
 
-        if (savedInstanceState == null) {
-            setElementsVisibility(false)
-            binding.portfolioButtonId.isEnabled = false
-        } else {
+        if (savedInstanceState != null && savedInstanceState.getBoolean("isVisible")) {
             setElementsVisibility(true)
             binding.portfolioButtonId.isEnabled = true
+        } else {
+            setElementsVisibility(false)
+            binding.portfolioButtonId.isEnabled = false
             //execute(savedInstanceState.getString("entered_stock", ""))
         }
         dbHelper = DatabaseHelper(requireActivity().applicationContext)
@@ -88,25 +89,21 @@ class MarketFragment : Fragment(R.layout.fragment_market), View.OnClickListener 
 
     fun execute(symbol: String) {
         stockService.execute(symbol)
-        doAsync {
-            if (stockService.price == -1.0f) {
-                binding.textResultId.setText("Stock not found")
-                binding.numberOfStockId.isEnabled = false
-                binding.portfolioButtonId.isEnabled = false
-            } else {
-                uiThread {
-                    myStock = Stock(
-                        symbol,
-                        stockService.price,
-                        stockService.dateKey
-                    )
-                    var myString = "${myStock.date}\n$${myStock.price}"
-                    binding.textResultId.setText(myString)
-                    binding.numberOfStockId.setText("0")
-                    binding.numberOfStockId.isEnabled = true
-                    binding.portfolioButtonId.isEnabled = true
-                }
-            }
+        if (stockService.price == -1.0f) {
+            binding.textResultId.setText("Stock not found")
+            binding.numberOfStockId.isEnabled = false
+            binding.portfolioButtonId.isEnabled = false
+        } else {
+            myStock = Stock(
+                symbol,
+                stockService.price,
+                stockService.dateKey
+            )
+            var myString = "${myStock.date}\n$${myStock.price}"
+            binding.textResultId.setText(myString)
+            binding.numberOfStockId.setText("0")
+            binding.numberOfStockId.isEnabled = true
+            binding.portfolioButtonId.isEnabled = true
         }
     }
 

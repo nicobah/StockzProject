@@ -15,7 +15,7 @@ import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 import java.net.URL
 
-class PortfolioDetailedFragment(symbol: String) : Fragment(R.layout.fragment_detailed_portfolio){
+class PortfolioDetailedFragment(symbol: String = "") : Fragment(R.layout.fragment_detailed_portfolio){
 
     lateinit var dateKey : String
     lateinit var json: JSONObject
